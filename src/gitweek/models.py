@@ -7,14 +7,14 @@ class FileChange:
     path: str
     added: int
     deleted: int
-    binary: int
+    binary: bool
 
-
+@dataclass(frozen=True)
 class Commit:
     repo: str
     sha: str
     author_name: str
-    author_eail: str
+    author_email: str
     authored_at: datetime
     subject: str
     files: tuple[FileChange, ...]
