@@ -18,3 +18,5 @@ class Commit:
     authored_at: datetime
     subject: str
     files: tuple[FileChange, ...]
+
+
