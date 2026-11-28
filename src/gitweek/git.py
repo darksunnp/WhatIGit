@@ -1,6 +1,8 @@
 from datetime import datetime
-
+import subprocess
+import os
 from gitweek.models import Commit,FileChange
+from gitweek.errors import GitweekError
 
 RS = "\x1e"
 US = "\x1f"
@@ -67,6 +69,22 @@ def _resolve_rename(path: str) -> str:
     gluing = before_t+before.split(" => ")[1]+rest
     return gluing.replace("//","/")
 
+
+def run_git(args: list[str], cwd:str) -> str:
+    cmd_list = ["git","-C",cwd,*args]
+    try:
+        result = subprocess.run(
+            cmd_list,
+            env={**os.environ, "LC_ALL": "C"},
+            capture_output=True,
+            encoding="utf-8",
+            errors="replace",
+        )
+    except FileNotFoundError as err:
+        raise GitweekError("git not installed") from err
+    if result.returncode != 0:
+        raise GitweekError(f"git failed in {cwd}: {result.stderr.strip()}")
+    return result.stdout
 
 
 
