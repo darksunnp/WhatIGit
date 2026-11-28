@@ -6,10 +6,16 @@ RS = "\x1e"
 US = "\x1f"
 
 def parse_log(raw: str, repo:str) -> list[Commit]:
-    return raw.split(" ")
+    result = []
+    for temp in raw.split(RS):
+        if temp.strip() == "":
+            continue
+        result.append(_parse_commit(temp,repo))
+    return result
+        
 
 def _parse_commit(chunk:str, repo:str) -> Commit:
-    """First line is the header, the rest are numstat lines."""
-    return chunk.split("<US>")
+    print("hello world")
+
 
 
