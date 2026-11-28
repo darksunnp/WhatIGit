@@ -39,7 +39,7 @@ def _parse_numstat_line(line: str) -> FileChange:
     added, deleted , path = line.split("\t",2)
     if added == "-":
         return FileChange(
-            path=path,
+            path=_resolve_rename(path),
             added=0,
             deleted=0,
             binary=True,
@@ -47,7 +47,7 @@ def _parse_numstat_line(line: str) -> FileChange:
     added = int(added)
     deleted = int(deleted)
     return FileChange(
-        path=path,
+        path=_resolve_rename(path),
         added=added,
         deleted=deleted,
         binary=False,
@@ -57,6 +57,17 @@ def _parse_numstat_line(line: str) -> FileChange:
 
 
 def _resolve_rename(path: str) -> str:
-    print("hello world")
+    if " => " not in path:
+        return path
+    if "{" not in path:
+        return path.split(" => ")[1]
+    
+    before_t,_,rest_t = path.partition("{")
+    before,_,rest = rest_t.partition("}")
+    gluing = before_t+before.split(" => ")[1]+rest
+    return gluing.replace("//","/")
+
+
+
 
 
