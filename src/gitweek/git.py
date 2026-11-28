@@ -15,7 +15,19 @@ def parse_log(raw: str, repo:str) -> list[Commit]:
         
 
 def _parse_commit(chunk:str, repo:str) -> Commit:
-    print("hello world")
+    lines = chunk.splitlines()
+    header = lines[0]
+    sha,name,email,date,subject = header.split(US)
+    return Commit(
+        repo=repo,
+        sha=sha,
+        author_name=name,
+        author_email=email,
+        authored_at=datetime.fromisoformat(date),
+        subject=subject,
+        files=(),
+    )
+
 
 
 
