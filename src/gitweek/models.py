@@ -9,6 +9,7 @@ class FileChange:
     deleted: int
     binary: bool
 
+
 @dataclass(frozen=True)
 class Commit:
     repo: str
@@ -18,5 +19,3 @@ class Commit:
     authored_at: datetime
     subject: str
     files: tuple[FileChange, ...]
-
-

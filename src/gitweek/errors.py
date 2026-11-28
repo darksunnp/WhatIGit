@@ -1,2 +1,2 @@
 class GitweekError(Exception):
-    print("Error")
+    """User desktop has error and the cli.py will print it"""
